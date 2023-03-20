@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbDiscussDao">
+    <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbDiscuss">
+        <id column="discuss_id" jdbcType="INTEGER" property="discussId" />
+        <result column="answer_account" jdbcType="INTEGER" property="answerAccount" />
+        <result column="questioner_account" jdbcType="INTEGER" property="questionerAccount" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="discuss_content" jdbcType="VARCHAR" property="discussContent" />
+        <result column="time" jdbcType="TIMESTAMP" property="time" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        discuss_id, answer_account,questioner_account,title,discuss_content,`time`
+    </sql>
+
+    <select id = "selectAllDiscuss" resultType="scu.train.backend.Entity.TbDiscuss">
+        select * from tb_discuss;
+    </select>
+
+    <insert id="insert" keyColumn="discuss_id" keyProperty="questionId" parameterType="scu.train.backend.Entity.TbDiscuss" useGeneratedKeys="true">
+        insert into tb_discuss (answer_account , questioner_account ,
+        title, chat_content, `time`)
+        values (#{answerAccount,jdbcType=INTEGER},#{questionerAccount,jdbcType=INTEGER},
+        #{title,jdbcType=INTEGER},#{chatContent,jdbcType=VARCHAR},#{time,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="discuss_id" keyProperty="discussId" parameterType="scu.train.backend.Entity.TbDiscuss" useGeneratedKeys="true">
+        insert into tb_discuss
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="answerAccount != null">
+                answer_account,
+            </if>
+            <if test="questionerAccount != null">
+                questioner_account,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="discussContent != null">
+                discuss_content,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="answerAccount != null">
+                #{answerAccount,jdbcType=INTEGER},
+            </if>
+            <if test="questionerAccount != null">
+                #{questionerAccount,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="discussContent != null">
+                #{discussContent,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from tb_discuss
+        where discuss_id = #{discussId,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectAllDiscussByCondition" parameterType="scu.train.backend.Entity.TbDiscuss" resultType="scu.train.backend.Entity.TbDiscuss">
+    select * from tb_discuss
+
+        <where>
+            <if test="answerAccount != null">
+                  answer_account = #{answerAccount,jdbcType=INTEGER}
+            </if>
+            <if test = "questionerAccount != null">
+              AND  questioner_account = #{questionerAccount,jdbcType=INTEGER}
+            </if>
+            <if test="title != null">
+              AND  title like CONCAT('%',#{title,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="discussContent != null">
+              AND   discuss_content like CONCAT('%',#{discussContent,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAllDiscussByConditions" parameterType="scu.train.backend.Entity.TbDiscuss" resultType="scu.train.backend.Entity.TbDiscuss">
+        select * from tb_discuss
+
+        <where>
+            <if test="answerAccount != null">
+                answer_account = #{answerAccount,jdbcType=INTEGER}
+            </if>
+            <if test = "questionerAccount != null">
+                OR  questioner_account = #{questionerAccount,jdbcType=INTEGER}
+            </if>
+            <if test="title != null">
+                OR  title like CONCAT('%',#{title,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="discussContent != null">
+                OR   discuss_content like CONCAT('%',#{discussContent,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

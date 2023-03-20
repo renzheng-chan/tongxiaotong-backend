@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbUserDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbUser">
+    <id column="account" jdbcType="INTEGER" property="account" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="identity_num" jdbcType="VARCHAR" property="identityNum" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="integral" jdbcType="INTEGER" property="integral" />
+    <result column="credit" jdbcType="INTEGER" property="credit" />
+    <result column="avatar" jdbcType="LONGVARCHAR" property="avatar" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    account, real_name, `password`, nick_name, sex, email, phone, identity_num, address, 
+    `role`, create_time, update_time, integral, credit,avatar
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where account = #{account,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"/>
+        from tb_user
+  </select>
+  <select id="loadUserAccount" resultType="scu.train.backend.Entity.TbUser">
+    select * from tb_user where account = #{account}
+  </select>
+  <select id="selectCondition" resultType="scu.train.backend.Entity.TbUser">
+   select
+       <include refid="Base_Column_List"/>
+       from tb_user
+    <where>
+      <if test="account != null">
+        account =  #{account}
+      </if>
+      <if test="content != null">
+        nick_name like concat('%',#{nickName},'%')
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user
+    where account = #{account,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="account" keyProperty="account" parameterType="scu.train.backend.Entity.TbUser" useGeneratedKeys="true">
+    insert into tb_user (account, real_name, `password`, nick_name,
+      sex, email, phone, 
+      identity_num, address, `role`, 
+      create_time, update_time, integral, 
+      credit, avatar)
+    values (#{account,jdbcType=INTEGER},#{realName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+      #{sex,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{identityNum,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{integral,jdbcType=INTEGER}, 
+      #{credit,jdbcType=INTEGER}, #{avatar,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="account" keyProperty="account" parameterType="scu.train.backend.Entity.TbUser" useGeneratedKeys="true">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      account,
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="identityNum != null">
+        identity_num,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="role != null">
+        `role`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="integral != null">
+        integral,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{account,jdbcType=INTEGER},
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNum != null">
+        #{identityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="integral != null">
+        #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbUser">
+    update tb_user
+    <set>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="identityNum != null">
+        identity_num = #{identityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        `role` = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="integral != null">
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=INTEGER},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where account = #{account,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="scu.train.backend.Entity.TbUser">
+    update tb_user
+    set real_name = #{realName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      identity_num = #{identityNum,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      `role` = #{role,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      integral = #{integral,jdbcType=INTEGER},
+      credit = #{credit,jdbcType=INTEGER},
+      avatar = #{avatar,jdbcType=LONGVARCHAR}
+    where account = #{account,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbUser">
+    update tb_user
+    set real_name = #{realName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      identity_num = #{identityNum,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      `role` = #{role,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      integral = #{integral,jdbcType=INTEGER},
+      credit = #{credit,jdbcType=INTEGER}
+    where account = #{account,jdbcType=INTEGER}
+  </update>
+</mapper>

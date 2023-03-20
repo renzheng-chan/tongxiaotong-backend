@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbOrderDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbOrder">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="order_status" jdbcType="BOOLEAN" property="orderStatus" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="publisher_name" jdbcType="VARCHAR" property="publisherName" />
+    <result column="publisher_account" jdbcType="INTEGER" property="publisherAccount" />
+    <result column="exchange_means" jdbcType="VARCHAR" property="exchangeMeans" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, title, price, content, order_status, type,publisher_name, publisher_account,
+    exchange_means, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_order
+    order by create_time desc
+  </select>
+    <select id="selectCondition" parameterType="scu.train.backend.Entity.TbOrder" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+    from tb_order
+    <where>
+      <if test="title != null">
+      title like concat('%',#{title},'%')
+      </if>
+    <if test="type !=null">
+      AND type = #{type}
+    </if>
+    <if test="publisherName !=null" >
+      AND publisher_name like concat('%',#{publisherName},'%')
+    </if>
+    <if test="exchangeMeans !=null">
+      AND exchange_means = #{exchangeMeans}
+    </if>
+    </where>
+    </select>
+  <select id="selectByAccount" resultType="scu.train.backend.Entity.TbOrder">
+    select
+        <include refid="Base_Column_List"/>
+        from tb_order
+          where publisher_account = #{account}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="order_id" keyProperty="orderId" parameterType="scu.train.backend.Entity.TbOrder" useGeneratedKeys="true">
+    insert into tb_order (title, price,
+      content, order_status, type,publisher_name,
+      publisher_account, exchange_means, create_time, 
+      update_time)
+    values (#{title,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+      #{content,jdbcType=VARCHAR}, #{orderStatus,jdbcType=BOOLEAN}, #{type,jdbcType=VARCHAR},#{publisherName,jdbcType=VARCHAR},
+      #{publisherAccount,jdbcType=INTEGER}, #{exchangeMeans,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="order_id" keyProperty="orderId" parameterType="scu.train.backend.Entity.TbOrder" useGeneratedKeys="true">
+    insert into tb_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="publisherName != null">
+        publisher_name,
+      </if>
+      <if test="publisherAccount != null">
+        publisher_account,
+      </if>
+      <if test="exchangeMeans != null">
+        exchange_means,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=BOOLEAN},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherName != null">
+        publisher_name,
+      </if>
+      <if test="publisherAccount != null">
+        #{publisherAccount,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeMeans != null">
+        #{exchangeMeans,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbOrder">
+    update tb_order
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=BOOLEAN},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherName != null">
+        publisher_name = #{publisherName,jdbcType=VARCHAR}
+      </if>
+      <if test="publisherAccount != null">
+        publisher_account = #{publisherAccount,jdbcType=INTEGER},
+      </if>
+      <if test="exchangeMeans != null">
+        exchange_means = #{exchangeMeans,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbOrder">
+    update tb_order
+    set title = #{title,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      content = #{content,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=BOOLEAN},
+      type = #{type,jdbcType=VARCHAR},
+      publisher_name = #{publisherAccount,jdbcType=VARCHAR},
+      publisher_account = #{publisherAccount,jdbcType=INTEGER},
+      exchange_means = #{exchangeMeans,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>

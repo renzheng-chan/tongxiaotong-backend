@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbChatDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbChat">
+    <id column="chat_id" jdbcType="INTEGER" property="chatId" />
+    <result column="chat_account1" jdbcType="INTEGER" property="chatAccount1" />
+    <result column="chat_account2" jdbcType="INTEGER" property="chatAccount2" />
+    <result column="chat_content" jdbcType="VARCHAR" property="chatContent" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    chat_id, chat_account1, chat_account2, chat_content, `time`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_chat
+    where chat_id = #{chatId,jdbcType=INTEGER}
+  </select>
+  <select id="selectChatInfo" resultType="scu.train.backend.Entity.TbChat">
+    select
+        <include refid="Base_Column_List"/>
+         from tb_chat
+           where chat_account1 = #{account1} and chat_account2 = #{account2}
+           order by 'time' desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_chat
+    where chat_id = #{chatId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="chat_id" keyProperty="chatId" parameterType="scu.train.backend.Entity.TbChat" useGeneratedKeys="true">
+    insert into tb_chat (chat_account1, chat_account2, chat_content, 
+      `time`)
+    values (#{chatAccount1,jdbcType=INTEGER}, #{chatAccount2,jdbcType=INTEGER}, #{chatContent,jdbcType=VARCHAR},
+      #{time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="chat_id" keyProperty="chatId" parameterType="scu.train.backend.Entity.TbChat" useGeneratedKeys="true">
+    insert into tb_chat
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="chatAccount1 != null">
+        chat_account1,
+      </if>
+      <if test="chatAccount2 != null">
+        chat_account2,
+      </if>
+      <if test="chatContent != null">
+        chat_content,
+      </if>
+      <if test="time != null">
+        `time`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="chatAccount1 != null">
+        #{chatAccount1,jdbcType=INTEGER},
+      </if>
+      <if test="chatAccount2 != null">
+        #{chatAccount2,jdbcType=INTEGER},
+      </if>
+      <if test="chatContent != null">
+        #{chatContent,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbChat">
+    update tb_chat
+    <set>
+      <if test="chatAccount1 != null">
+        chat_account1 = #{chatAccount1,jdbcType=INTEGER},
+      </if>
+      <if test="chatAccount2 != null">
+        chat_account2 = #{chatAccount2,jdbcType=INTEGER},
+      </if>
+      <if test="chatContent != null">
+        chat_content = #{chatContent,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where chat_id = #{chatId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbChat">
+    update tb_chat
+    set chat_account1 = #{chatAccount1,jdbcType=INTEGER},
+      chat_account2 = #{chatAccount2,jdbcType=INTEGER},
+      chat_content = #{chatContent,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=TIMESTAMP}
+    where chat_id = #{chatId,jdbcType=INTEGER}
+  </update>
+</mapper>

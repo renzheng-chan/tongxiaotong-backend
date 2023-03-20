@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbExpertDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbExpert">
+    <id column="expert_account" jdbcType="INTEGER" property="expertAccount" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="expert_name" jdbcType="VARCHAR" property="expertName"/>
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="belong" jdbcType="VARCHAR" property="belong" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="expert_photo" jdbcType="VARCHAR" property="expertPhoto"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    expert_account, account,expert_name, profession, `position`, belong, introduction,expert_photo
+  </sql>
+
+  <select id="selectAllExpert" resultType="scu.train.backend.Entity.TbExpert">
+    select * from tb_expert
+  </select>
+
+  <select id="selectAllByKeys" parameterType="java.lang.String" resultType="scu.train.backend.Entity.TbExpert">
+    select expert_account,account,profession,position,belong,introduction from tb_expert natural join tb_user where real_name like concat('%',#{keys,jdbcType=VARCHAR},'%')
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_expert
+    where expert_account = #{expertAccount,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccount" resultType="scu.train.backend.Entity.TbExpert">
+    select
+        <include refid="Base_Column_List"/>
+        from tb_expert
+          where account =#{account}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_expert
+    where expert_account = #{expertAccount,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="expert_account" keyProperty="expertAccount" parameterType="scu.train.backend.Entity.TbExpert" useGeneratedKeys="true">
+    insert into tb_expert (account,expert_name,profession, `position`,
+      belong, introduction,expert_photo)
+    values (#{account,jdbcType=INTEGER},#{expertName,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR},
+      #{belong,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR},#{expertPhoto,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="expert_account" keyProperty="expertAccount" parameterType="scu.train.backend.Entity.TbExpert" useGeneratedKeys="true">
+    insert into tb_expert
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        account,
+      </if>
+       <if test="expertName != null">
+       expert_name,
+        </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="position != null">
+        `position`,
+      </if>
+      <if test="belong != null">
+        belong,
+      </if>
+      <if test="introduction != null">
+        introduction,
+      </if>
+      <if test="expertPhoto != null">
+          expert_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="expertName != null">
+        #{expertName,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null">
+        #{belong,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="expertPhoto != null">
+        #{expertPhoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbExpert">
+    update tb_expert
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="expertName != null">
+        expert_name = #{expertName,jdbcType=INTEGER},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        `position` = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null">
+        belong = #{belong,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="expertPhoto != null">
+        expert_photo = #{expertPhoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where expert_account = #{expertAccount,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbExpert">
+    update tb_expert
+    set account = #{account,jdbcType=INTEGER},expert_name = #{expertName,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      `position` = #{position,jdbcType=VARCHAR},
+      belong = #{belong,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      expert_photo = #{expertPhoto,jdbcType=VARCHAR}
+    where expert_account = #{expertAccount,jdbcType=INTEGER}
+  </update>
+</mapper>

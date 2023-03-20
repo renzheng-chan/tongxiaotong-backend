@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbUserFinanceDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbUserFinance">
+    <id column="user_finance_id" jdbcType="INTEGER" property="userFinanceId" />
+    <result column="bank_id" jdbcType="INTEGER" property="bankId" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="finance_id" jdbcType="INTEGER" property="financeId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="repay_time" jdbcType="TIMESTAMP" property="repayTime" />
+    <result column="trade_time" jdbcType="TIMESTAMP" property="tradeTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_finance_id, bank_id, account, finance_id, `status`, remark, repay_time, trade_time,
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user_finance
+    where user_finance_id = #{userFinanceId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccount" resultType="scu.train.backend.Entity.TbUserFinance">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    tb_user_finance
+    where account = #{account}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user_finance
+    where user_finance_id = #{userFinanceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="user_finance_id" keyProperty="userFinanceId" parameterType="scu.train.backend.Entity.TbUserFinance" useGeneratedKeys="true">
+    insert into tb_user_finance (bank_id, account, finance_id, 
+      `status`, remark, repay_time, 
+      trade_time, update_time)
+    values (#{bankId,jdbcType=INTEGER}, #{account,jdbcType=INTEGER}, #{financeId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{repayTime,jdbcType=TIMESTAMP}, 
+      #{tradeTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="user_finance_id" keyProperty="userFinanceId" parameterType="scu.train.backend.Entity.TbUserFinance" useGeneratedKeys="true">
+    insert into tb_user_finance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bankId != null">
+        bank_id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="financeId != null">
+        finance_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="repayTime != null">
+        repay_time,
+      </if>
+      <if test="tradeTime != null">
+        trade_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bankId != null">
+        #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="financeId != null">
+        #{financeId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="repayTime != null">
+        #{repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeTime != null">
+        #{tradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbUserFinance">
+    update tb_user_finance
+    <set>
+      <if test="bankId != null">
+        bank_id = #{bankId,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="financeId != null">
+        finance_id = #{financeId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="repayTime != null">
+        repay_time = #{repayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeTime != null">
+        trade_time = #{tradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_finance_id = #{userFinanceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbUserFinance">
+    update tb_user_finance
+    set bank_id = #{bankId,jdbcType=INTEGER},
+      account = #{account,jdbcType=INTEGER},
+      finance_id = #{financeId,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      repay_time = #{repayTime,jdbcType=TIMESTAMP},
+      trade_time = #{tradeTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where user_finance_id = #{userFinanceId,jdbcType=INTEGER}
+  </update>
+</mapper>

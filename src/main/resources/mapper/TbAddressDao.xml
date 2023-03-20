@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbAddressDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbAddress">
+    <id column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="acccount" jdbcType="INTEGER" property="acccount" />
+    <result column="consignee" jdbcType="VARCHAR" property="consignee" />
+    <result column="consignee_phone" jdbcType="VARCHAR" property="consigneePhone" />
+    <result column="address_detail" jdbcType="VARCHAR" property="addressDetail" />
+    <result column="is_default" jdbcType="BOOLEAN" property="isDefault" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    address_id, acccount, consignee, consignee_phone, address_detail, is_default
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_address
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByAccountDefault" resultType="java.lang.Integer">
+     select
+         address_id
+          from tb_address
+             where account = #{account} and is_default = 1
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_address
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="address_id" keyProperty="addressId" parameterType="scu.train.backend.Entity.TbAddress" useGeneratedKeys="true">
+    insert into tb_address (acccount, consignee, consignee_phone, 
+      address_detail, is_default)
+    values (#{acccount,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, #{consigneePhone,jdbcType=VARCHAR}, 
+      #{addressDetail,jdbcType=VARCHAR}, #{isDefault,jdbcType=BOOLEAN})
+  </insert>
+  <insert id="insertSelective" keyColumn="address_id" keyProperty="addressId" parameterType="scu.train.backend.Entity.TbAddress" useGeneratedKeys="true">
+    insert into tb_address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="acccount != null">
+        acccount,
+      </if>
+      <if test="consignee != null">
+        consignee,
+      </if>
+      <if test="consigneePhone != null">
+        consignee_phone,
+      </if>
+      <if test="addressDetail != null">
+        address_detail,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="acccount != null">
+        #{acccount,jdbcType=INTEGER},
+      </if>
+      <if test="consignee != null">
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneePhone != null">
+        #{consigneePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetail != null">
+        #{addressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BOOLEAN},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbAddress">
+    update tb_address
+    <set>
+      <if test="acccount != null">
+        acccount = #{acccount,jdbcType=INTEGER},
+      </if>
+      <if test="consignee != null">
+        consignee = #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="consigneePhone != null">
+        consignee_phone = #{consigneePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetail != null">
+        address_detail = #{addressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BOOLEAN},
+      </if>
+    </set>
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbAddress">
+    update tb_address
+    set acccount = #{acccount,jdbcType=INTEGER},
+      consignee = #{consignee,jdbcType=VARCHAR},
+      consignee_phone = #{consigneePhone,jdbcType=VARCHAR},
+      address_detail = #{addressDetail,jdbcType=VARCHAR},
+      is_default = #{isDefault,jdbcType=BOOLEAN}
+    where address_id = #{addressId,jdbcType=INTEGER}
+  </update>
+</mapper>

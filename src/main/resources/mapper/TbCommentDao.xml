@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbCommentDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbComment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="knowledge_id" jdbcType="INTEGER" property="knowledgeId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, knowledge_id, content,nick_name, account, create_time
+  </sql>
+  <select id="selectByKnowledgeId" parameterType="java.lang.Integer" resultType="scu.train.backend.Entity.TbComment">
+    select * from tb_comment where knowledge_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="comment_id" keyProperty="commentId" parameterType="scu.train.backend.Entity.TbComment" useGeneratedKeys="true">
+    insert into tb_comment (knowledge_id, content,nick_name, account,
+      create_time)
+    values (#{knowledgeId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},#{nickName,jdbcType=VARCHAR}, #{account,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="comment_id" keyProperty="commentId" parameterType="scu.train.backend.Entity.TbComment" useGeneratedKeys="true">
+    insert into tb_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="knowledgeId != null">
+        knowledge_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="knowledgeId != null">
+        #{knowledgeId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbComment">
+    update tb_comment
+    <set>
+      <if test="knowledgeId != null">
+        knowledge_id = #{knowledgeId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbComment">
+    update tb_comment
+    set knowledge_id = #{knowledgeId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      account = #{account,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>

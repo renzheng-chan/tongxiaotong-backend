@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbKnowledgeDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbKnowledge">
+    <id column="article_id" jdbcType="INTEGER" property="articleId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="cover" jdbcType="VARCHAR" property="cover"/>
+    <result column="publisher_account" jdbcType="INTEGER" property="publisherAccount" />
+    <result column="publisher_name" jdbcType="VARCHAR" property="publisherName"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    article_id, title, content, publisher_account,publisher_name, create_time, update_time, cover
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_knowledge
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_knowledge
+  </select>
+  <select id="selectByAccount" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_knowledge
+    <where>
+      <if test="account !=null and account != '' ">
+            and publisher_account = #{account}
+      </if>
+    </where>
+  </select>
+    <select id="selectCondition" resultType="scu.train.backend.Entity.TbKnowledge">
+      select
+          <include refid="Base_Column_List"/>
+           from tb_knowledge
+         <where>
+           <if test="title != null">
+             title like concat('%',#{title},'%')
+           </if>
+           <if test="publisherName !=null">
+             publisher_name like concat('%',#{publisherName},'%')
+           </if>
+           <if test="publisherAccount != null">
+             publisher_account = #{publisherAccount}
+           </if>
+         </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_knowledge
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="article_id" keyProperty="articleId" parameterType="scu.train.backend.Entity.TbKnowledge" useGeneratedKeys="true">
+    insert into tb_knowledge (title, content, publisher_account, publisher_name,
+      create_time, update_time,cover)
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{publisherAccount,jdbcType=INTEGER},#{publisherName,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},#{cover,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="article_id" keyProperty="articleId" parameterType="scu.train.backend.Entity.TbKnowledge" useGeneratedKeys="true">
+    insert into tb_knowledge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="publisherAccount != null">
+        publisher_account,
+      </if>
+      <if test="publisherName != null">
+        publisher_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherAccount != null">
+        #{publisherAccount,jdbcType=INTEGER},
+      </if>
+      <if test="publisherName != null">
+        #{publisherName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbKnowledge">
+    update tb_knowledge
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherAccount != null">
+        publisher_account = #{publisherAccount,jdbcType=INTEGER},
+      </if>
+      <if test="publisherName != null">
+        publisher_name = #{publisherName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbKnowledge">
+    update tb_knowledge
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      publisher_account = #{publisherAccount,jdbcType=INTEGER},
+      publisher_name = #{publisherName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      cover = #{cover,jdbcType=VARCHAR}
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+</mapper>

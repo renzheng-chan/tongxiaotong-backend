@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbShoppingcartDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbShoppingcart">
+    <id column="shoppingcart_id" jdbcType="INTEGER" property="shoppingcartId" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    shoppingcart_id, product_id, `count`,price, account, create_time,
+    update_time
+  </sql>
+
+  <select id="getProductPriceById" parameterType="java.lang.Integer" resultType="java.math.BigDecimal">
+    select price from tb_product where product_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByShopping" parameterType="java.lang.Integer" resultType="scu.train.backend.Entity.TbShoppingcart">
+    select * from tb_shoppingcart where account = #{name,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_shoppingcart
+    where shoppingcart_id = #{shoppingcartId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByAccount" resultType="scu.train.backend.Entity.TbShoppingcart">
+    select
+        <include refid="Base_Column_List"/>
+          from tb_shoppingcart
+            where account = #{account,jdbcType=INTEGER}
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_shoppingcart
+    where shoppingcart_id = #{shoppingcartId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="shoppingcart_id" keyProperty="shoppingcartId" parameterType="scu.train.backend.Entity.TbShoppingcart" useGeneratedKeys="true">
+    insert into tb_shoppingcart (product_id, `count`,price, account, create_time,
+      update_time)
+    values (#{productId,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL},
+       #{account,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="shoppingcart_id" keyProperty="shoppingcartId" parameterType="scu.train.backend.Entity.TbShoppingcart" useGeneratedKeys="true">
+    insert into tb_shoppingcart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="count != null">
+        `count`,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbShoppingcart">
+    update tb_shoppingcart
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        `count` = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where shoppingcart_id = #{shoppingcartId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbShoppingcart">
+    update tb_shoppingcart
+    set product_id = #{productId,jdbcType=INTEGER},
+      `count` = #{count,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      account = #{account,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where shoppingcart_id = #{shoppingcartId,jdbcType=INTEGER}
+  </update>
+  <update id="updateCount">
+    update tb_shoppingcart
+    set count = #{count}
+    where shoppingcart_id = #{shoppingId,jdbcType=INTEGER}
+  </update>
+</mapper>

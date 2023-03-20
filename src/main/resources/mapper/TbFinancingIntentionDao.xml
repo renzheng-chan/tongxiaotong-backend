@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbFinancingIntentionDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbFinancingIntention">
+    <id column="intention_id" jdbcType="INTEGER" property="intentionId" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="finance_id" jdbcType="INTEGER" property="financeId" />
+    <result column="purpose" jdbcType="VARCHAR" property="purpose" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+  </resultMap>
+  <resultMap id="BankMap" type="scu.train.backend.Entity.TbBankFinance">
+    <id column="finance_id" jdbcType="INTEGER" property="financeId" />
+    <result column="bank_id" jdbcType="INTEGER" property="bankId" />
+    <result column="finance_amount" jdbcType="INTEGER" property="financeAmount" />
+    <result column="rate" jdbcType="DECIMAL" property="rate" />
+    <result column="repay_time" jdbcType="INTEGER" property="repayTime" />
+    <result column="isExist" jdbcType="TINYINT" property="isexist" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="BankFinanceMap" type="scu.train.backend.Entity.TbBankFinance">
+    <id column="finance_id" jdbcType="INTEGER" property="financeId" />
+    <result column="bank_id" jdbcType="INTEGER" property="bankId" />
+    <result column="finance_amount" jdbcType="INTEGER" property="financeAmount" />
+    <result column="rate" jdbcType="DECIMAL" property="rate" />
+    <result column="repay_time" jdbcType="INTEGER" property="repayTime" />
+    <result column="isExist" jdbcType="TINYINT" property="isexist" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    intention_id, account, real_name, address, phone, finance_id, purpose, create_time, 
+    update_time, status, result
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_financing_intention
+    where intention_id = #{intentionId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccount" resultType="scu.train.backend.Entity.TbFinancingIntention">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_financing_intention
+    where account = #{account}
+  </select>
+  <select id="selectByAddress" resultType="scu.train.backend.Entity.TbFinancingIntention">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_financing_intention
+    where address like "%"#{address}"%"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_financing_intention
+    where intention_id = #{intentionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="intention_id" keyProperty="intentionId" parameterType="scu.train.backend.Entity.TbFinancingIntention" useGeneratedKeys="true">
+    insert into tb_financing_intention (account, real_name, address, 
+      phone, finance_id, purpose, 
+      create_time, update_time, status)
+    values (#{account,jdbcType=INTEGER}, #{realName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{financeId,jdbcType=INTEGER}, #{purpose,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="intention_id" keyProperty="intentionId" parameterType="scu.train.backend.Entity.TbFinancingIntention" useGeneratedKeys="true">
+    insert into tb_financing_intention
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        account,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="financeId != null">
+        finance_id,
+      </if>
+      <if test="purpose != null">
+        purpose,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+          <if test="status != null">
+            status,
+          </if>
+      <if test="result !=null">
+        result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="financeId != null">
+        #{financeId,jdbcType=INTEGER},
+      </if>
+      <if test="purpose != null">
+        #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="status !=null">
+          #{status,jdbcType=INTEGER},
+        </if>
+      <if test="result !=null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbFinancingIntention">
+    update tb_financing_intention
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="financeId != null">
+        finance_id = #{financeId,jdbcType=INTEGER},
+      </if>
+      <if test="purpose != null">
+        purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+        <if test="status != null">
+          status = #{status,jdbcType=INTEGER},
+        </if>
+        <if test="result != null">
+          result = #{result,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where intention_id = #{intentionId,jdbcType=INTEGER}
+  </update>
+<select id="selectByBankId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+select bank_id from tb_bank_finance where finance_id = #{financeId,jdbcType=INTEGER}
+</select>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbFinancingIntention">
+    update tb_financing_intention
+    set account = #{account,jdbcType=INTEGER},
+      real_name = #{realName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      finance_id = #{financeId,jdbcType=INTEGER},
+      purpose = #{purpose,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      result = #{result,jdbcType=VARCHAR},
+    where intention_id = #{intentionId,jdbcType=INTEGER}
+  </update>
+</mapper>

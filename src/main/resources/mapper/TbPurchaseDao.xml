@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbPurchaseDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbPurchase">
+    <id column="purchase_id" jdbcType="INTEGER" property="purchaseId" />
+    <result column="account" jdbcType="INTEGER" property="account" />
+    <result column="purchase_type" jdbcType="VARCHAR" property="purchaseType" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="purchase_status" jdbcType="INTEGER" property="purchaseStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    purchase_id, account, purchase_type, total_price, address_id, purchase_status, create_time,
+    update_time
+  </sql>
+
+  <select id="selectNewPurchaseId" parameterType="java.lang.Integer" resultType="scu.train.backend.Entity.TbPurchase">
+    select * from tb_purchase where account = #{name,jdbcType=INTEGER} order by create_time desc limit 1
+  </select>
+
+  <select id="selectByPurchase" parameterType="java.lang.Integer" resultType="scu.train.backend.Entity.TbPurchase">
+    select * from tb_purchase where account = #{name,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_purchase
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccount" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_purchase
+    where account = #{account,jdbcType=INTEGER}
+    And purchase_type = #{type,jdbcType=VARCHAR}
+  </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_purchase
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="purchase_id" keyProperty="purchaseId" parameterType="scu.train.backend.Entity.TbPurchase" useGeneratedKeys="true">
+    insert into tb_purchase (account, purchase_type, total_price, 
+      address_id, purchase_status, create_time,
+      update_time)
+    values (#{account,jdbcType=INTEGER}, #{purchaseType,jdbcType=VARCHAR}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{addressId,jdbcType=INTEGER}, #{purchaseStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="purchase_id" keyProperty="purchaseId" parameterType="scu.train.backend.Entity.TbPurchase" useGeneratedKeys="true">
+    insert into tb_purchase
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        account,
+      </if>
+      <if test="purchaseType != null">
+        purchase_type,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="addressId != null">
+        address_id,
+      </if>
+      <if test="purchaseStatus != null">
+        purchase_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="account != null">
+        #{account,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="addressId != null">
+        #{addressId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStatus != null">
+        #{purchaseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbPurchase">
+    update tb_purchase
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseType != null">
+        purchase_type = #{purchaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="addressId != null">
+        address_id = #{addressId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStatus != null">
+        purchase_status = #{purchaseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbPurchase">
+    update tb_purchase
+    set account = #{account,jdbcType=INTEGER},
+      purchase_type = #{purchaseType,jdbcType=VARCHAR},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      address_id = #{addressId,jdbcType=INTEGER},
+      purchase_status = #{purchaseStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </update>
+</mapper>

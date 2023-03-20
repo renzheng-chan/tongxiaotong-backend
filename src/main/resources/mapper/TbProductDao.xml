@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbProductDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbProduct">
+    <id column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+    <result column="belong_account" jdbcType="INTEGER" property="belongAccount" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    product_id, product_name, price, `source`,nick_name, info, `count`, belong_account, create_time,
+    update_time,picture
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_product
+    order by update_time desc
+  </select>
+  <select id="selectCondition" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_product
+    <where>
+      <if test="productName != null">
+        product_name like concat('%',#{productName},'%')
+      </if>
+      <if test="source != null">
+        AND source like concat('%',#{source},'%')
+      </if>
+      <if test="nickName != null">
+        AND nick_name like concat('%',#{nickName},'%')
+      </if>
+    </where>
+  </select>
+  <select id="selectByAccount" resultType="scu.train.backend.Entity.TbProduct">
+    select
+        <include refid="Base_Column_List"/>
+        from tb_product
+          where belong_account = #{account}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_product
+    where product_id = #{productId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="product_id" keyProperty="productId" parameterType="scu.train.backend.Entity.TbProduct" useGeneratedKeys="true">
+    insert into tb_product (product_name, price, `source`,nick_name,
+      info, `count`, belong_account, 
+      create_time, update_time, picture
+      )
+    values (#{productName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{source,jdbcType=VARCHAR},#{nickName,jdbcType=VARCHAR},
+      #{info,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{belongAccount,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{picture,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="product_id" keyProperty="productId" parameterType="scu.train.backend.Entity.TbProduct" useGeneratedKeys="true">
+    insert into tb_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="source != null">
+        `source`,
+      </if>
+      <if test="nickName !=null">
+        nick_name,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+      <if test="count != null">
+        `count`,
+      </if>
+      <if test="belongAccount != null">
+        belong_account,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="picture != null">
+        picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+          #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="belongAccount != null">
+        #{belongAccount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picture != null">
+        #{picture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbProduct">
+    update tb_product
+    <set>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="source != null">
+        `source` = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR}
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        `count` = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="belongAccount != null">
+        belong_account = #{belongAccount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picture != null">
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="scu.train.backend.Entity.TbProduct">
+    update tb_product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      `source` = #{source,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      `count` = #{count,jdbcType=INTEGER},
+      belong_account = #{belongAccount,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      picture = #{picture,jdbcType=VARCHAR}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbProduct">
+    update tb_product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      `source` = #{source,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      `count` = #{count,jdbcType=INTEGER},
+      belong_account = #{belongAccount,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where product_id = #{productId,jdbcType=INTEGER}
+  </update>
+</mapper>

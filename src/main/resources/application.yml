@@ -1,0 +1,34 @@
+# 数据库连接配置
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/rongxiaotong?characterEncoding=UTF-8&useSSL=false
+#    username: root
+#    password: RR13AP23
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 配置 mybatis xml 的⽂件路径，在 resources/mapper 创建所有表的 xml ⽂件
+#mybatis:
+#  mapper-locations: classpath:mapper/**.xml
+#pagehelper:
+#  propertyName: propertyValue
+#  reasonable: false
+# defaultCount: true # 分页插件默认参数支持 default-count 形式，自定义扩展的参数，必须大小写一致
+#解决springboot参数传中文乱码
+
+spring:
+  application:
+    name: backend
+  datasource:
+    url: jdbc:mysql://localhost:3308/rongxiaotong?characterEncoding=utf8&useSSL=false
+    username: root
+    password: crzcool0210
+    driver-class-name: com.mysql.cj.jdbc.Driver
+# 配置 mybatis xml 的⽂件路径，在 resources/mapper 创建所有表的 xml ⽂件
+mybatis:
+  mapper-locations: classpath:mapper/**.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+pagehelper:
+  reasonable: false
+  defaultCount: true

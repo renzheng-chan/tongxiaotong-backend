@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="scu.train.backend.Dao.TbPurchaseDetailDao">
+  <resultMap id="BaseResultMap" type="scu.train.backend.Entity.TbPurchaseDetail">
+    <id column="detail_id" jdbcType="INTEGER" property="detailId" />
+    <result column="purchase_id" jdbcType="INTEGER" property="purchaseId" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="unin_price" jdbcType="DECIMAL" property="uninPrice" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="sum_price" jdbcType="DECIMAL" property="sumPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    detail_id, purchase_id, product_id, unin_price, `count`, sum_price
+  </sql>
+
+
+  <select id="selectByPurchaseId" parameterType="java.lang.Integer" resultType="scu.train.backend.Entity.TbPurchaseDetail">
+    select * from tb_purchase_detail where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_purchase_detail
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_purchase_detail
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="detail_id" keyProperty="detailId" parameterType="scu.train.backend.Entity.TbPurchaseDetail" useGeneratedKeys="true">
+    insert into tb_purchase_detail (purchase_id, product_id, unin_price, 
+      `count`, sum_price)
+    values (#{purchaseId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{uninPrice,jdbcType=DECIMAL}, 
+      #{count,jdbcType=INTEGER}, #{sumPrice,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" keyColumn="detail_id" keyProperty="detailId" parameterType="scu.train.backend.Entity.TbPurchaseDetail" useGeneratedKeys="true">
+    insert into tb_purchase_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="purchaseId != null">
+        purchase_id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="uninPrice != null">
+        unin_price,
+      </if>
+      <if test="count != null">
+        `count`,
+      </if>
+      <if test="sumPrice != null">
+        sum_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="uninPrice != null">
+        #{uninPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="sumPrice != null">
+        #{sumPrice,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="scu.train.backend.Entity.TbPurchaseDetail">
+    update tb_purchase_detail
+    <set>
+      <if test="purchaseId != null">
+        purchase_id = #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="uninPrice != null">
+        unin_price = #{uninPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        `count` = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="sumPrice != null">
+        sum_price = #{sumPrice,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="scu.train.backend.Entity.TbPurchaseDetail">
+    update tb_purchase_detail
+    set purchase_id = #{purchaseId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      unin_price = #{uninPrice,jdbcType=DECIMAL},
+      `count` = #{count,jdbcType=INTEGER},
+      sum_price = #{sumPrice,jdbcType=DECIMAL}
+    where detail_id = #{detailId,jdbcType=INTEGER}
+  </update>
+</mapper>
